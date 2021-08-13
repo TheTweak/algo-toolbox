@@ -4,35 +4,28 @@ import fileinput
 def fib_period(m):
     f0 = 0
     f1 = 1
-    for i in range(2, 10**5):
+    period = [0, 1]
+    for _ in range(2, 10**5):
         f0, f1 = f1%m, (f0+f1)%m
+        period.append(f1)
         if f0 == 0 and f1 == 1:
-            return i - 1
+            return period[:-2]
 
 
 finput = fileinput.input()
 m, n = next(finput).split()
 m, n = int(m), int(n)
 
-s = 0
-if m >= 1:
-    s += 1
-
-f0 = 0
-f1 = 1
 p = fib_period(10)
+p_sum = sum(p)
+lp = len(p)
 
-sm = 0
-for i in range(2, m%p):
-    f0, f1 = f1, f0 + f1
-    sm += f1
-print(sm%10)
+quotient = (m-1) // lp
+remainder = (m-1) % lp
+sm = p_sum*quotient + sum(p[:remainder+1])
 
-f0 = 0
-f1 = 1
-sn = 0
-for i in range(2, n%p+1):
-    f0, f1 = f1, f0 + f1
-    sn += f1
-print(sn%10)
-print(abs(sn%10-sm%10))
+quotient = n // lp
+remainder = n % lp
+sn = p_sum*quotient + sum(p[:remainder+1])
+#print(f'Sn={sn} Sm={sm}')
+print((sn-sm)%10)
