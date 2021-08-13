@@ -16,6 +16,6 @@ n = int(next(finput))
 f0 = 0
 f1 = 1
 p = fib_period(10)
-for _ in range(2, (n+2)%10):
+for _ in range(2, n%p+2):
     f0, f1 = f1, (f0+f1)%10
 print((f0*f1)%10)
