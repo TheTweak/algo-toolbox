@@ -29,7 +29,7 @@ def lex_cmp(lhs, rhs):
         elif int(l) < int(r):
             #print(f'cmp l={l} < r={r}, return -1')
             return -1
-    print(f'return 0')
+    #print(f'return 0')
     return 0
 
 
