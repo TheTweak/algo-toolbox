@@ -9,31 +9,39 @@ Greedy step:
     continue with the rest
 '''
 import fileinput
-from functools import cmp_to_key
 
 finput = fileinput.input()
 
 
-def lex_cmp(lhs, rhs):
-    if len(lhs) <= len(rhs):
-        last = lhs[-1]
-        for _ in range(len(rhs)-len(lhs)):
-            lhs += last
-    else:
-        return -lex_cmp(rhs, lhs)
-    #print(f'cmp lhs={lhs} rhs={rhs}')
-    for l, r in zip(lhs, rhs):
-        if int(l) > int(r):
-            #print(f'cmp l={l} > r={r}, return 1')
-            return 1
-        elif int(l) < int(r):
-            #print(f'cmp l={l} < r={r}, return -1')
-            return -1
-    #print(f'return 0')
-    return 0
+def is_gr_or_eq(a, b):
+    sa = str(a)
+    sb = str(b)
+    for i, j in zip(sa, sb):
+        if int(i) > int(j):
+            return True
+        elif int(i) < int(j):
+            return False
+    if len(sa) < len(sb):
+        if int(sa[-1]) >= int(sb[len(sa)]):
+            return True
+        else:
+            return False
+    elif len(sa) > len(sb):
+        return not is_gr_or_eq(b, a)
+    return True
 
 
 n = int(next(finput))
-N = next(finput).split()
-N.sort(key=cmp_to_key(lex_cmp), reverse=True)
-print(''.join([str(i) for i in N]))
+N = [int(i) for i in next(finput).split()]
+result = []
+while N:
+    max_digit = 0
+    max_digit_i = 0
+    for i, d in enumerate(N):
+        if is_gr_or_eq(d, max_digit):
+            max_digit = d
+            max_digit_i = i
+    result.append(max_digit)
+    N.pop(max_digit_i)
+
+print(''.join([str(i) for i in result]))
