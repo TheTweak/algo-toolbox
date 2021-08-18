@@ -16,19 +16,7 @@ finput = fileinput.input()
 def is_gr_or_eq(a, b):
     sa = str(a)
     sb = str(b)
-    for i, j in zip(sa, sb):
-        if int(i) > int(j):
-            return True
-        elif int(i) < int(j):
-            return False
-    if len(sa) < len(sb):
-        if int(sa[-1]) >= int(sb[len(sa)]):
-            return True
-        else:
-            return False
-    elif len(sa) > len(sb):
-        return not is_gr_or_eq(b, a)
-    return True
+    return int(sa+sb) >= int(sb+sa)
 
 
 n = int(next(finput))
