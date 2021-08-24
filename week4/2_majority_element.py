@@ -49,4 +49,4 @@ def get_majority(a):
     return r
 
 
-print(get_majority(Major(A, None, 0)).el)
+print(1 if get_majority(Major(A, None, 0)).el else 0)
