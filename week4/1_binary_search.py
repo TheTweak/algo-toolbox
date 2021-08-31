@@ -1,24 +1,27 @@
 import fileinput
 
 
-def bin_search(arr, x):
-    if not arr:
+def bin_search(arr, x, lo, hi):
+    if lo > hi:
         return -1
-    m = len(arr)//2
-    if arr[m] == x:
-        return m
-    if arr[m] < x:
-        return bin_search(arr[m+1:], x)
+    mid = (lo+hi)//2
+    if x == arr[mid]:
+        return mid
+    elif x > arr[mid]:
+        return bin_search(arr, x, mid+1, hi)
     else:
-        return bin_search(arr[:m], x)
+        return bin_search(arr, x, lo, mid-1)
 
 
 finput = fileinput.input()
-A = [int(a) for i, a in enumerate(next(finput).split()) if i > 0]
-B = [int(a) for i, a in enumerate(next(finput).split()) if i > 0]
+n = next(finput)
+A = [int(a) for a in next(finput).split()]
+m = next(finput)
+B = [int(a) for a in next(finput).split()]
 
 result = []
 for b in B:
-    result.append(bin_search(A, b))
+    result.append(bin_search(A, b, 0, len(A)-1))
 
-print(' '.join([str(i) for i in result]))
+print(*result)
+
