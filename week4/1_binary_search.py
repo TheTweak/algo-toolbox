@@ -6,7 +6,10 @@ def bin_search(arr, x, lo, hi):
         return -1
     mid = (lo+hi)//2
     if x == arr[mid]:
-        return mid
+        result = bin_search(arr, x, lo, mid-1)
+        if result == -1:
+            result = mid
+        return result
     elif x > arr[mid]:
         return bin_search(arr, x, mid+1, hi)
     else:
