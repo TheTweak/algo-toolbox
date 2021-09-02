@@ -1,25 +1,20 @@
 import fileinput
-import random
 
 
 def partition(a, l, r):
     j = l
     j_ = l
-    k = l
     pivot = a[l]
     for i in range(l+1, r+1):
-        if a[i] == pivot:
-            j_ += 1
-            a[j_], a[i] = a[i], a[j_]
         if a[i] <= pivot:
-            j += 1
-            a[j], a[i] = a[i], a[j]
-    m_size = j_
-    while j_ >= l:
-        a[j_], a[j] = a[j], a[j_]
-        j_ -= 1
-        j -= 1
-    return j+1, j+1+m_size
+            j_ += 1
+            if a[i] < pivot:
+                j += 1
+                a[i], a[j] = a[j], a[i]
+            if a[i] == pivot:
+                a[i], a[j_] = a[j_], a[i]
+    a[l], a[j] = a[j], a[l]
+    return j, j_
 
 
 def quick_sort(a, l, r):
@@ -35,4 +30,4 @@ a = [int(x) for x in next(finput).split()]
 
 quick_sort(a, 0, len(a)-1)
 
-print(' '.join([str(x) for x in a]))
+print(*a)
