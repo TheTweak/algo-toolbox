@@ -1,18 +1,11 @@
 import sys
 
 
-def distance(p1: (int, int), p2: (int, int)) -> float:
-    return ((p1[0]-p2[0])**2+(p1[1]-p2[1])**2)**0.5
+def distance(p1: (int, int), p2: (int, int)) -> int:
+    return (p1[0]-p2[0])**2+(p1[1]-p2[1])**2
 
 
-def get_middle(x: list) -> float:
-    m = len(x)//2
-    x1 = x[m-1]
-    x2 = x[m]
-    return x1+(x2-x1)/2
-
-
-def closest_points(x: list, y: list) -> float:
+def closest_points(x: list, y: list) -> int:
     if len(x) == 1:
         return float('inf')
     if len(x) == 2:
@@ -23,11 +16,10 @@ def closest_points(x: list, y: list) -> float:
     x, y = zip(*xy)
 
     # split the points into two halves
-    # by drawing vertical line in the middle
-    middle = get_middle(x)
-    left_side = filter(lambda p: p[0] <= middle, xy)
+    m = len(xy)//2
+    left_side = xy[:m]
     left_x, left_y = zip(*left_side)
-    right_side = filter(lambda p: p[0] > middle, xy)
+    right_side = xy[m:]
     right_x, right_y = zip(*right_side)
 
     d1 = closest_points(left_x, left_y)
@@ -36,7 +28,7 @@ def closest_points(x: list, y: list) -> float:
 
     # filter out points from initial set xy
     # that lie within distance d to the middle
-    within_d = filter(lambda p: distance(p, (middle, p[1])) <= d, xy)
+    within_d = filter(lambda p: distance(p, (x[m], p[1])) <= d, xy)
     # sort these points by y coordinate
     within_d = sorted(within_d, key=lambda p: p[1])
     # for each of these points, compute its distance to
@@ -54,5 +46,5 @@ if __name__ == '__main__':
     n = data[0]
     x = data[1::2]
     y = data[2::2]
-    print(closest_points(x, y))
+    print(closest_points(x, y)**0.5)
 
