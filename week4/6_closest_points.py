@@ -11,16 +11,10 @@ def closest_points(x: list, y: list) -> int:
     if len(x) == 2:
         return distance(p1=(x[0],y[0]), p2=(x[1],y[1]))
 
-    xy = zip(x, y)
-    xy = sorted(xy, key=lambda a: a[0])
-    x, y = zip(*xy)
-
     # split the points into two halves
-    m = len(xy)//2
-    left_side = xy[:m]
-    left_x, left_y = zip(*left_side)
-    right_side = xy[m:]
-    right_x, right_y = zip(*right_side)
+    m = len(x)//2
+    left_x, left_y = x[:m], y[:m]
+    right_x, right_y = x[m:], y[m:]
 
     d1 = closest_points(left_x, left_y)
     d2 = closest_points(right_x, right_y)
@@ -28,6 +22,7 @@ def closest_points(x: list, y: list) -> int:
 
     # filter out points from initial set xy
     # that lie within distance d to the middle
+    xy = zip(x, y)
     within_d = filter(lambda p: distance(p, (x[m], p[1])) <= d, xy)
     # sort these points by y coordinate
     within_d = sorted(within_d, key=lambda p: p[1])
@@ -46,5 +41,8 @@ if __name__ == '__main__':
     n = data[0]
     x = data[1::2]
     y = data[2::2]
+    xy = zip(x, y)
+    xy = sorted(xy, key=lambda a: a[0])
+    x, y = zip(*xy)
     print(closest_points(x, y)**0.5)
 
