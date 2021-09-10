@@ -8,7 +8,6 @@ def get_change(money: int) -> int:
         new_sol = float('inf')
         for c in coins:
             if m-c == 0:
-                sol = dp[m-1]+1
                 new_sol = 1
             elif m-c > 0:
                 sol = dp[m-c]+1
