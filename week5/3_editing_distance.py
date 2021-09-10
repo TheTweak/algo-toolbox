@@ -1,17 +1,22 @@
 import fileinput
+from collections import defaultdict
 
 
-def get_edit_distance(a: str, b: str, i: int, j: int, dp: dict) -> int:
-    if not (i, j) in dp:
-        if i == 0:
-            dp[(i, j)] = j
-        elif j == 0:
-            dp[(i, j)] = i
-        else:
+def get_edit_distance(a: str, b: str) -> int:
+    def default_dp():
+        return float('inf')
+    dp = defaultdict(default_dp)
+    for i in range(len(a)):
+        dp[(i, 0)] = i
+    for j in range(len(b)):
+        dp[(0, j)] = j
+
+    for i in range(1, len(a)):
+        for j in range(1, len(b)):
             diff = 0 if a[i-1] == b[j-1] else 1
-            dp[(i, j)] = min(get_edit_distance(a, b, i, j-1, dp)+1,
-                    get_edit_distance(a, b, i-1, j, dp)+1,
-                    get_edit_distance(a, b, i-1, j-1, dp)+diff)
+            dp[(i, j)] = min(dp[i, j-1]+1,
+                    dp[i-1, j]+1,
+                    dp[i-1, j-1]+diff)
     return dp[(i, j)]
 
 
@@ -19,4 +24,4 @@ if __name__ == '__main__':
     finput = fileinput.input()
     a = next(finput)
     b = next(finput)
-    print(get_edit_distance(a, b, len(a), len(b), {}))
+    print(get_edit_distance(a, b))
