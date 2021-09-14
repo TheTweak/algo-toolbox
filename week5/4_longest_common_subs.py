@@ -2,18 +2,14 @@ import fileinput
 
 
 def longest_common_subs(n: list, m: list) -> int:
-    dp = [[0]*len(m) for _ in range(len(n))]
+    dp = [[0 for _ in range(len(m)+1)] for _ in range(len(n)+1)]
 
-    dp[0][0] = 1 if n[0] == m[0] else 0
-    for row in range(1, len(n)):
-        dp[row][0] = max(1 if n[row] == m[0] else 0, dp[row-1][0])
-    for col in range(1, len(m)):
-        dp[0][col] = max(1 if n[0] == m[col] else 0, dp[0][col-1])
-
-    for row in range(1, len(n)):
-        for col in range(1, len(m)):
-            diff = 1 if n[row] == m[col] else 0
-            dp[row][col] = max(dp[row-1][col], dp[row][col-1], dp[row-1][col-1]+diff)
+    for i in range(1,len(n)+1):
+        for j in range(1,len(m)+1):
+            if n[i-1] == m[j-1]:
+                dp[i][j] = dp[i-1][j-1] + 1
+            else:
+                dp[i][j] = max(dp[i-1][j], dp[i][j-1])
 
     return dp[-1][-1]
 
