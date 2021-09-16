@@ -10,7 +10,7 @@ def get_max_score(W: int, N: list) -> int:
             n = N[i-1]
             s = w-n
             if s >= 0:
-                dp[w][i] = max(dp[w][i-1], dp[s][i]+n)
+                dp[w][i] = max(dp[w][i-1], dp[s][i-1]+n)
             else:
                 dp[w][i] = dp[w][i-1]
 
